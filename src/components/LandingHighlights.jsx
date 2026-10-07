@@ -241,9 +241,9 @@ export function HeroCodeWindow() {
   const lines = current.code.slice(0, chars).split("\n");
 
   return (
-    <div className="relative w-full max-w-xl mx-auto lg:mx-0 lg:ml-auto">
+    <div className="relative w-full min-w-0 max-w-xl mx-auto lg:mx-0 lg:ml-auto">
       {/* soft glow */}
-      <div className="absolute -inset-6 bg-yellow-300/20 rounded-[2rem] blur-3xl pointer-events-none" aria-hidden="true" />
+      <div className="absolute -inset-3 sm:-inset-6 bg-yellow-300/20 rounded-[2rem] blur-3xl pointer-events-none" aria-hidden="true" />
 
       <div className="relative rounded-2xl bg-slate-900/95 ring-1 ring-white/15 shadow-2xl overflow-hidden text-left">
         {/* title bar */}
@@ -253,7 +253,7 @@ export function HeroCodeWindow() {
             <span className="w-3 h-3 rounded-full bg-yellow-400/90" />
             <span className="w-3 h-3 rounded-full bg-green-400/90" />
           </div>
-          <div className="flex gap-1 overflow-x-auto" role="tablist" aria-label="Code language">
+          <div className="flex gap-1 min-w-0 overflow-x-auto" role="tablist" aria-label="Code language">
             {SNIPPETS.map((s, i) => (
               <button
                 key={s.file}
@@ -264,7 +264,7 @@ export function HeroCodeWindow() {
                   setSnip(i);
                   setChars(0);
                 }}
-                className={`px-3 py-1 rounded-md text-xs font-mono whitespace-nowrap transition focus:outline-none focus-visible:ring-2 focus-visible:ring-yellow-300 ${
+                className={`px-2 sm:px-3 py-1 rounded-md text-[11px] sm:text-xs font-mono whitespace-nowrap transition focus:outline-none focus-visible:ring-2 focus-visible:ring-yellow-300 ${
                   i === snip ? "bg-slate-900 text-white" : "text-slate-400 hover:text-slate-200"
                 }`}
               >
@@ -278,11 +278,11 @@ export function HeroCodeWindow() {
         </div>
 
         {/* code */}
-        <div className="px-4 py-4 h-[17rem] sm:h-[19rem] overflow-x-auto">
-          <pre className="font-mono text-[12px] sm:text-[13px] leading-6">
+        <div className="px-3 sm:px-4 py-4 h-[16rem] sm:h-[19rem] overflow-x-auto">
+          <pre className="font-mono text-[11px] sm:text-[13px] leading-6">
             {lines.map((ln, i) => (
               <div key={i} className="flex">
-                <span className="w-7 shrink-0 text-right pr-3 text-slate-600 select-none">{i + 1}</span>
+                <span className="w-6 sm:w-7 shrink-0 text-right pr-2 sm:pr-3 text-slate-600 select-none">{i + 1}</span>
                 <code className="whitespace-pre">
                   {highlight(ln, current.comment)}
                   {i === lines.length - 1 && !done && (
@@ -295,7 +295,7 @@ export function HeroCodeWindow() {
         </div>
 
         {/* terminal output */}
-        <div className="px-4 py-3 bg-black/30 border-t border-white/10 font-mono text-[12px] min-h-[2.75rem]" aria-live="polite">
+        <div className="px-3 sm:px-4 py-3 bg-black/30 border-t border-white/10 font-mono text-[11px] sm:text-[12px] min-h-[2.75rem] break-words" aria-live="polite">
           {done ? (
             <span className="text-slate-300">
               <span className="text-emerald-400">$</span> run {current.file}

@@ -7,9 +7,9 @@ import CourseCard from "../components/CourseCard";
 import { API_BASE, toDate, daysUntil, formatShortDate, seatsLeft, courseTypeOf } from "../utils/courseMeta";
 
 const MODE_TABS = [
-  { key: "all", label: "All batches" },
-  { key: "live", label: "🔴 Live (online)" },
-  { key: "offline", label: "📍 Offline (in-person)" },
+  { key: "all", label: "All batches", short: "All" },
+  { key: "live", label: "🔴 Live (online)", short: "🔴 Live" },
+  { key: "offline", label: "📍 Offline (in-person)", short: "📍 Offline" },
 ];
 
 const monthKey = (course) => {
@@ -72,8 +72,8 @@ export default function UpcomingLive() {
       <Navbar />
 
       <header className="bg-gradient-to-r from-green-600 to-green-800 text-white">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-20 py-12 grid lg:grid-cols-5 gap-8 items-center">
-          <div className="lg:col-span-3">
+        <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-20 py-8 sm:py-12 grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-8 items-center">
+          <div className="lg:col-span-3 min-w-0">
             <p className="inline-flex items-center gap-2 bg-white/15 px-3 py-1 rounded-full text-sm mb-4">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-300 opacity-75"></span>
@@ -82,14 +82,15 @@ export default function UpcomingLive() {
               Admissions open
             </p>
             <h1 className="text-3xl md:text-5xl font-bold mb-3">Upcoming batches</h1>
-            <p className="text-green-50 text-lg max-w-xl">
+            <p className="text-green-50 text-base sm:text-lg max-w-xl">
               Join a batch before it starts — live online classes or in-person offline batches, with support sessions and practice.
             </p>
-            <div role="tablist" aria-label="Batch type" className="mt-6 inline-flex flex-wrap bg-white/10 p-1 rounded-2xl md:rounded-full">
+            <div role="tablist" aria-label="Batch type" className="mt-6 grid grid-cols-3 sm:inline-flex sm:flex-wrap gap-1 w-full sm:w-auto bg-white/10 p-1 rounded-2xl sm:rounded-full">
               {MODE_TABS.map((t) => (
                 <button key={t.key} role="tab" aria-selected={mode === t.key} onClick={() => setMode(t.key)}
-                  className={`px-4 py-2 rounded-full text-sm font-semibold transition ${mode === t.key ? "bg-white text-green-700 shadow" : "text-white hover:bg-white/10"}`}>
-                  {t.label} <span className="opacity-70">({modeCount(t.key)})</span>
+                  className={`px-2 sm:px-4 py-2.5 sm:py-2 rounded-xl sm:rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap transition ${mode === t.key ? "bg-white text-green-700 shadow" : "text-white hover:bg-white/10"}`}>
+                  <span className="sm:hidden">{t.short}</span><span className="hidden sm:inline">{t.label}</span>{" "}
+                  <span className="opacity-70">({modeCount(t.key)})</span>
                 </button>
               ))}
             </div>
@@ -148,8 +149,8 @@ export default function UpcomingLive() {
           <div className="space-y-12">
             {groups.map(([month, list]) => (
               <section key={month} aria-labelledby={`m-${month}`}>
-                <div className="flex items-center gap-4 mb-5">
-                  <h2 id={`m-${month}`} className="text-xl font-bold text-gray-800 whitespace-nowrap">{month}</h2>
+                <div className="flex items-center gap-3 sm:gap-4 mb-5">
+                  <h2 id={`m-${month}`} className="text-lg sm:text-xl font-bold text-gray-800 whitespace-nowrap">{month}</h2>
                   <span className="h-px flex-1 bg-gray-200"></span>
                   <span className="text-sm text-gray-500 whitespace-nowrap">{list.length} {list.length === 1 ? "batch" : "batches"}</span>
                 </div>

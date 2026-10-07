@@ -471,12 +471,12 @@ export default function Navbar() {
       {/* NAVBAR — same as original */}
       <nav className="bg-green-50 shadow-md sticky top-0 z-50">
         <div className="px-4 md:px-8 py-3 md:py-4">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center gap-0 md:gap-0 cursor-pointer hover:opacity-80 transition" onClick={() => navigate("/")}>
+          <div className="flex justify-between items-center gap-4">
+            <div className="flex items-center shrink-0 cursor-pointer hover:opacity-80 transition" onClick={() => navigate("/")}>
               <h1 className="m-0"><Logo /></h1>
             </div>
 
-            <div className="hidden md:flex items-center gap-6 font-medium">
+            <div className="hidden lg:flex items-center gap-5 xl:gap-6 font-medium whitespace-nowrap">
               <button onClick={() => navigate("/")} className={navLinkClass("/")}>Home</button>
               <button onClick={() => navigate("/courses")} className={navLinkClass("/courses")}>Courses</button>
               <button onClick={() => navigate("/upcoming-live")} className={`inline-flex items-center gap-2 ${navLinkClass("/upcoming-live")}`}>
@@ -505,7 +505,7 @@ export default function Navbar() {
               )}
             </div>
 
-            <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden text-gray-600 hover:text-green-600 focus:outline-none">
+            <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="lg:hidden p-1 -mr-1 text-gray-600 hover:text-green-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 rounded-md" aria-label={mobileMenuOpen ? "Close menu" : "Open menu"} aria-expanded={mobileMenuOpen}>
               {mobileMenuOpen ? (
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
               ) : (
@@ -515,7 +515,7 @@ export default function Navbar() {
           </div>
 
           {mobileMenuOpen && (
-            <div className="md:hidden mt-4 pb-4 space-y-3 border-t pt-4">
+            <div className="lg:hidden mt-3 pb-3 space-y-2 border-t pt-3 max-h-[calc(100vh-5rem)] overflow-y-auto">
               <button onClick={() => { navigate("/"); setMobileMenuOpen(false); }} className="block w-full text-left py-2 px-3 hover:bg-gray-100 rounded-lg transition">Home</button>
               <button onClick={() => { navigate("/courses"); setMobileMenuOpen(false); }} className="block w-full text-left py-2 px-3 hover:bg-gray-100 rounded-lg transition">Courses</button>
               <button onClick={() => { navigate("/upcoming-live"); setMobileMenuOpen(false); }} className="flex items-center gap-2 w-full text-left py-2 px-3 hover:bg-gray-100 rounded-lg transition">
@@ -542,7 +542,7 @@ export default function Navbar() {
       {/* LOGIN MODAL — same as original */}
       {loginOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white w-full max-w-md p-5 md:p-6 rounded-2xl relative mx-4">
+          <div className="bg-white w-full max-w-md p-5 md:p-6 rounded-2xl relative max-h-[92vh] overflow-y-auto">
             <button onClick={() => { setLoginOpen(false); setStayOnPage(false); setLoginNotice(null); }} aria-label="Close" className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-xl">✖</button>
             <div className="flex justify-center mb-3">
               <Logo size="sm" />
@@ -578,7 +578,7 @@ export default function Navbar() {
       {/* STUDENT SIGN-UP MODAL — no approval needed */}
       {registerOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white w-full max-w-md p-5 md:p-6 rounded-2xl relative mx-4 max-h-[92vh] overflow-y-auto">
+          <div className="bg-white w-full max-w-md p-5 md:p-6 rounded-2xl relative max-h-[92vh] overflow-y-auto">
             <button onClick={() => { setRegisterOpen(false); setStayOnPage(false); setRegErrors({}); }} aria-label="Close" className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-xl">✖</button>
             <div className="flex justify-center mb-3">
               <Logo size="sm" />
@@ -625,7 +625,7 @@ export default function Navbar() {
       {/* TEACHER REGISTRATION MODAL */}
       {teacherOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white w-full max-w-2xl p-4 md:p-6 rounded-2xl relative max-h-[90vh] overflow-y-auto mx-4">
+          <div className="bg-white w-full max-w-2xl p-4 md:p-6 rounded-2xl relative max-h-[90vh] overflow-y-auto">
             <button onClick={resetModal} className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-xl">✖</button>
 
             {/* Step Indicator */}

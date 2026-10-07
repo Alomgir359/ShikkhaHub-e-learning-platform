@@ -474,29 +474,29 @@ export default function Welcome() {
           <div className="absolute bottom-20 right-10 w-96 h-96 bg-white rounded-full filter blur-3xl animate-pulse delay-1000"></div>
         </div>
 
-        <div className="relative max-w-7xl mx-auto py-20 md:py-24 px-6">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div className="relative max-w-7xl mx-auto pt-10 pb-6 sm:py-16 md:py-24 px-4 sm:px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             {/* Left: text */}
-            <div className="animate-fade-in-up text-center lg:text-left">
-              <span className="inline-block bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-sm mb-4">
+            <div className="min-w-0 animate-fade-in-up text-center lg:text-left">
+              <span className="inline-block max-w-full bg-white/20 backdrop-blur-sm px-3 sm:px-4 py-2 rounded-2xl sm:rounded-full text-xs sm:text-sm leading-snug mb-4">
                 🧠 মুখস্থ নয়, বোঝা — Think deeply, code in any language
               </span>
-              <h1 className="text-4xl md:text-5xl xl:text-6xl font-bold mb-4 leading-tight">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl xl:text-6xl font-bold mb-4 leading-tight break-words">
                 Learn Deeply with <span className="text-yellow-300">ShikkhaHub</span>
               </h1>
-              <p className="text-lg md:text-xl mb-8 text-white/90 max-w-2xl mx-auto lg:mx-0">
+              <p className="text-base sm:text-lg md:text-xl mb-8 text-white/90 max-w-2xl mx-auto lg:mx-0">
                 গভীর থিওরি শিখুন, গভীরভাবে ভাবতে শিখুন — তারপর যেকোনো প্রোগ্রামিং ল্যাঙ্গুয়েজে সহজেই শিফট করুন
               </p>
-              <div className="flex flex-wrap justify-center lg:justify-start gap-4">
+              <div className="flex flex-col sm:flex-row sm:flex-wrap justify-center lg:justify-start gap-3 sm:gap-4">
                 <button
                   onClick={scrollToCourses}
-                  className="bg-white text-green-700 px-8 py-3 rounded-xl font-semibold hover:scale-105 transition shadow-lg hover:shadow-2xl flex items-center gap-2"
+                  className="w-full sm:w-auto justify-center bg-white text-green-700 px-8 py-3 rounded-xl font-semibold hover:scale-105 transition shadow-lg hover:shadow-2xl flex items-center gap-2"
                 >
                   <span>🎓</span> Explore Courses
                 </button>
                 <button
                   onClick={() => setOpen(true)}
-                  className="bg-transparent border-2 border-white text-white px-8 py-3 rounded-xl font-semibold hover:bg-white hover:text-green-700 transition flex items-center gap-2"
+                  className="w-full sm:w-auto justify-center bg-transparent border-2 border-white text-white px-8 py-3 rounded-xl font-semibold hover:bg-white hover:text-green-700 transition flex items-center gap-2"
                 >
                   <span>👨‍🏫</span> Join as Teacher
                 </button>
@@ -504,33 +504,35 @@ export default function Welcome() {
             </div>
 
             {/* Right: programming visual */}
-            <HeroCodeWindow />
+            <div className="min-w-0 w-full">
+              <HeroCodeWindow />
+            </div>
           </div>
 
           {/* Stats Bar - Dynamic from Database */}
-          <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto pb-32">
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
-              <div className="text-3xl font-bold">{statsLoading ? "..." : stats.totalCourses}</div>
+          <div className="mt-10 md:mt-16 grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 max-w-3xl mx-auto pb-16 sm:pb-24 md:pb-32">
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 sm:p-4 text-center lg:text-left">
+              <div className="text-2xl sm:text-3xl font-bold">{statsLoading ? "..." : stats.totalCourses}</div>
               <div className="text-sm opacity-90">Courses</div>
             </div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
-              <div className="text-3xl font-bold">{statsLoading ? "..." : stats.totalStudents}+</div>
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 sm:p-4 text-center lg:text-left">
+              <div className="text-2xl sm:text-3xl font-bold">{statsLoading ? "..." : stats.totalStudents}+</div>
               <div className="text-sm opacity-90">Students</div>
             </div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
-              <div className="text-3xl font-bold">{statsLoading ? "..." : stats.totalTeachers}+</div>
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 sm:p-4 text-center lg:text-left">
+              <div className="text-2xl sm:text-3xl font-bold">{statsLoading ? "..." : stats.totalTeachers}+</div>
               <div className="text-sm opacity-90">Instructors</div>
             </div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
-              <div className="text-3xl font-bold">{stats.satisfaction}%</div>
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 sm:p-4 text-center lg:text-left">
+              <div className="text-2xl sm:text-3xl font-bold">{stats.satisfaction}%</div>
               <div className="text-sm opacity-90">Satisfaction</div>
             </div>
           </div>
         </div>
 
         {/* Wave Divider */}
-        <div className="absolute bottom-0 w-full">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+        <div className="absolute -bottom-px left-0 w-full pointer-events-none" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" className="block w-full h-auto">
             <path fill="#f3f4f6" fillOpacity="1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,154.7C960,171,1056,181,1152,165.3C1248,149,1344,107,1392,85.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
           </svg>
         </div>

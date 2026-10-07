@@ -8,10 +8,10 @@ import { useSearchParams } from "react-router-dom";
 import { courseTypeOf,API_BASE } from "../utils/courseMeta";
 
 const TYPE_TABS = [
-  { key: "all", label: "All courses" },
-  { key: "live", label: "Live courses" },
-  { key: "offline", label: "Offline batches" },
-  { key: "recorded", label: "Recorded courses" },
+  { key: "all", label: "All courses", short: "All" },
+  { key: "live", label: "Live courses", short: "Live" },
+  { key: "offline", label: "Offline batches", short: "Offline" },
+  { key: "recorded", label: "Recorded courses", short: "Recorded" },
 ];
 
 export default function Courses() {
@@ -108,38 +108,40 @@ export default function Courses() {
       <Navbar />
 
       {/* 🔥 HERO + CATEGORY */}
-      <div className="bg-gradient-to-r from-green-600 to-green-800 text-white py-12">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold">Explore Courses</h1>
-          <p className="mt-2 text-gray-100">
+      <div className="bg-gradient-to-r from-green-600 to-green-800 text-white py-8 sm:py-12">
+        <div className="text-center mb-6 sm:mb-8 px-4">
+          <h1 className="text-3xl sm:text-4xl font-bold">Explore Courses</h1>
+          <p className="mt-2 text-gray-100 text-sm sm:text-base">
             Upgrade your skills with our professional courses
           </p>
         </div>
 
         <div className="flex justify-center px-4 mb-6">
-          <div role="tablist" aria-label="Course type" className="inline-flex flex-wrap justify-center bg-white/10 p-1 rounded-2xl md:rounded-full">
+          <div role="tablist" aria-label="Course type" className="grid grid-cols-2 sm:inline-flex sm:flex-wrap sm:justify-center gap-1 w-full max-w-md sm:max-w-none sm:w-auto bg-white/10 p-1 rounded-2xl sm:rounded-full">
             {TYPE_TABS.map((t) => (
               <button
                 key={t.key}
                 role="tab"
                 aria-selected={courseType === t.key}
                 onClick={() => setCourseType(t.key)}
-                className={`px-4 md:px-5 py-2 rounded-full text-sm font-semibold transition ${
+                className={`px-3 md:px-5 py-2.5 sm:py-2 rounded-xl sm:rounded-full text-sm font-semibold whitespace-nowrap transition ${
                   courseType === t.key ? "bg-white text-green-700 shadow" : "text-white hover:bg-white/10"
                 }`}
               >
-                {t.label} <span className="opacity-70">({typeCount(t.key)})</span>
+                <span className="sm:hidden">{t.short}</span>
+                <span className="hidden sm:inline">{t.label}</span>{" "}
+                <span className="opacity-70">({typeCount(t.key)})</span>
               </button>
             ))}
           </div>
         </div>
 
-        <div className="flex justify-center flex-wrap gap-4 px-4">
+        <div className="flex justify-center flex-wrap gap-2 sm:gap-4 px-4">
           {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => setCategory(cat)}
-              className={`px-5 py-2 rounded-full font-medium transition duration-300 ${
+              className={`px-4 sm:px-5 py-1.5 sm:py-2 rounded-full text-sm sm:text-base font-medium transition duration-300 ${
                 category === cat
                   ? "bg-white text-green-700 shadow-lg scale-105"
                   : "bg-white/20 hover:bg-white hover:text-green-700"

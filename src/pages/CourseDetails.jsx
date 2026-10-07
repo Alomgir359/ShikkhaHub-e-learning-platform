@@ -62,7 +62,7 @@ function BatchStartHighlight({ course, offline, countdown }) {
   return (
     <div className="relative mb-5 overflow-hidden rounded-2xl bg-gradient-to-r from-yellow-300 via-yellow-400 to-amber-400 text-green-950 shadow-xl ring-2 ring-yellow-200/70">
       <span className="pointer-events-none absolute -right-6 -top-8 h-28 w-28 rounded-full bg-white/25" aria-hidden></span>
-      <div className="relative flex flex-col sm:flex-row sm:items-center gap-4 p-4 md:p-1">
+      <div className="relative flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 p-4 md:p-3">
         <div className="flex items-start gap-3 flex-1 min-w-0">
           <span className="shrink-0 flex items-center justify-center w-12 h-12 rounded-xl bg-green-900 text-yellow-300 text-2xl shadow" aria-hidden>🚀</span>
           <div className="min-w-0">
@@ -822,11 +822,11 @@ export default function CourseDetails() {
       </div>
 
       {/* HERO */}
-      <section className="bg-gradient-to-br from-green-700 via-green-800 to-green-900 text-white px-4 md:px-10 py-8 md:py-12">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-12 gap-8 items-start">
+      <section className="bg-gradient-to-br from-green-700 via-green-800 to-green-900 text-white px-4 md:px-10 py-6 md:py-12">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
 
           {/* Left: course info */}
-          <div className="lg:col-span-7">
+          <div className="lg:col-span-7 min-w-0">
             <div className="flex flex-wrap items-center gap-2 mb-4">
               {live && course.batchNumber ? (
                 <span className="inline-flex items-center gap-1.5 bg-yellow-400/15 border border-yellow-300/60 text-yellow-200 px-3 py-1 rounded-md text-sm font-semibold">
@@ -872,17 +872,22 @@ export default function CourseDetails() {
               </>
             ) : (
               <>
-                <h1 className="text-3xl md:text-5xl font-bold leading-tight mb-3">{course.courseTitle}</h1>
+                <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold leading-tight mb-3 break-words">{course.courseTitle}</h1>
                 {course.subTitle && <p className="text-lg md:text-xl text-white/90 mb-4">{course.subTitle}</p>}
               </>
             )}
+
+            {/* Mobile / tablet: demo video right under the title (desktop shows it in the right card) */}
+            <div className="lg:hidden mb-5 rounded-2xl bg-white p-2 shadow-2xl">
+              <PreviewVideo url={course.promoVideoUrl} poster={course.thumbnailUrl} title={course.courseTitle} />
+            </div>
 
             {course.description && (
               <p className="text-white/80 leading-relaxed mb-6 max-w-2xl line-clamp-4 whitespace-pre-line">{course.description}</p>
             )}
 
             {/* CTA + price */}
-            <div className="flex flex-wrap items-center gap-x-5 gap-y-3 mb-8">
+            <div className="hidden lg:flex flex-wrap items-center gap-x-5 gap-y-3 mb-8">
               {userRole !== "TEACHER" && (
                 <button onClick={handleEnrollClick} disabled={(!canEnroll && !isEnrolled) || pendingReview}
                   className="inline-flex items-center gap-2 bg-yellow-400 text-green-950 font-bold px-6 py-3 rounded-lg shadow-lg hover:bg-yellow-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-yellow-200 transition-colors disabled:opacity-60 disabled:cursor-not-allowed">
@@ -902,9 +907,9 @@ export default function CourseDetails() {
             {live && <BatchStartHighlight course={course} offline={offline} countdown={batchCountdown} />}
 
             {/* Key facts strip */}
-            <dl className="grid grid-cols-2 md:grid-cols-4 rounded-xl border border-white/25 bg-white/5 divide-white/15 md:divide-x overflow-hidden">
+            <dl className="grid grid-cols-2 md:grid-cols-4 text-sm sm:text-base rounded-xl border border-white/25 bg-white/5 divide-white/15 md:divide-x overflow-hidden">
               {heroFacts.map((f, idx) => (
-                <div key={f.label} className={`p-4 ${idx % 2 === 1 ? "border-l border-white/15 md:border-l-0" : ""} ${idx > 1 ? "border-t border-white/15 md:border-t-0" : ""}`}>
+                <div key={f.label} className={`p-3 sm:p-4 min-w-0 break-words ${idx % 2 === 1 ? "border-l border-white/15 md:border-l-0" : ""} ${idx > 1 ? "border-t border-white/15 md:border-t-0" : ""}`}>
                   <dt className="flex items-center gap-1.5 text-sm text-white/75 mb-1.5">
                     <span aria-hidden>{f.icon}</span>{f.label}
                   </dt>
@@ -939,11 +944,13 @@ export default function CourseDetails() {
           </div>
 
           {/* Right: preview video + purchase card */}
-          <aside className="lg:col-span-5">
+          <aside className="lg:col-span-5 min-w-0">
             <div className="bg-white text-gray-800 rounded-2xl p-3 shadow-2xl">
-              <PreviewVideo url={course.promoVideoUrl} poster={course.thumbnailUrl} title={course.courseTitle} />
+              <div className="hidden lg:block">
+                <PreviewVideo url={course.promoVideoUrl} poster={course.thumbnailUrl} title={course.courseTitle} />
+              </div>
 
-              <div className="px-2 pt-4 pb-2 space-y-4">
+              <div className="px-2 pt-2 lg:pt-4 pb-2 space-y-4">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div className="flex items-baseline gap-2">
                     <span className="text-3xl font-extrabold text-gray-900">{free ? "Free" : formatTaka(course.price)}</span>
