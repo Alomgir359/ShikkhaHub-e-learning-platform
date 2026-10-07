@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Logo from "./Logo";
-import API_BASE from "../utils/courseMeta";
+import {API_BASE} from "../utils/courseMeta";
 
 
 export default function Navbar() {

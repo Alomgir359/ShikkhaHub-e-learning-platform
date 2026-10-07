@@ -5,6 +5,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import EnrollmentModal from "../components/EnrollmentModal";
+import { API_BASE } from "../utils/courseMeta";
 import {
   isLiveCourse,
   isOfflineCourse,
@@ -21,7 +22,7 @@ import {
   getVideoSource,
   getVideoPoster,
   useCountdown,
-  API_BASE,
+ 
 } from "../utils/courseMeta";
 
 // Batch start date + the start time written in classTime ("9:00 PM - 10:30 PM" / "21:00")
@@ -274,7 +275,7 @@ export default function CourseDetails() {
   const getFileUrl = (filePath) => {
     if (!filePath) return null;
     const filename = filePath.split("/").pop();
-    return `{API_BASE}/files/view/${filename}`;
+    return `${API_BASE}/files/view/${filename}`;
   };
 
   // ── Fetch course ──────────────────────────────────────────────────────────
@@ -514,7 +515,7 @@ export default function CourseDetails() {
         response = await fetch(`${API_BASE}/materials/upload/pdf`, { method: "POST", body: formData });
       } else if (content.contentType === "VIDEO") {
         if (!content.videoUrl) { alert("Please enter a video URL"); setUploading(false); return; }
-        response = await fetch("http://localhost:8080/api/materials/upload/video", {
+        response = await fetch(`${API_BASE}/materials/upload/video`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

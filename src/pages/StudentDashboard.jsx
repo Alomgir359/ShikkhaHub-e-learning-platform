@@ -8,7 +8,6 @@ import StudentOverview from "./student/StudentOverview";
 import StudentRecorded from "./student/StudentRecorded";
 import StudentLive from "./student/StudentLive";
 import StudentAssignments from "./student/StudentAssignments";
-import { API_BASE } from "../utils/courseMeta";
 /**
  * Student dashboard
  *   Dashboard · Recorded Classes · Live Classes · Assignments · Profile & Settings

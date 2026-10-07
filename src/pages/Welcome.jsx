@@ -347,7 +347,7 @@ export default function Welcome() {
         formData.append("profilePhoto", step2Files.profilePhoto);
         formData.append("organizationIdCard", step2Files.organizationIdCard);
 
-        const step2Response = await fetch(`{API_BASE}/teachers/apply/step2/${newTempId}`, {
+        const step2Response = await fetch(`${API_BASE}/teachers/apply/step2/${newTempId}`, {
           method: "POST",
           body: formData
         });
