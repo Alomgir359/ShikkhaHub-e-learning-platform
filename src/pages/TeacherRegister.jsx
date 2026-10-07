@@ -1,7 +1,7 @@
 // pages/TeacherRegister.jsx
 import React, { useState } from "react";
 import axios from "axios";
-
+import { API_BASE } from "../utils/courseMeta";
 export default function TeacherRegister() {
   const [form, setForm] = useState({
     name: "",
@@ -10,7 +10,7 @@ export default function TeacherRegister() {
   });
 
   const submit = async () => {
-    await axios.post("http://localhost:8080/api/teachers/register", form);
+    await axios.post(`${API_BASE}/teachers/register`, form);
     alert("Waiting for admin approval");
   };
 

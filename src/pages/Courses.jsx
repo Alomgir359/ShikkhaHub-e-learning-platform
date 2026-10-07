@@ -5,7 +5,7 @@ import CourseCard from "../components/CourseCard";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { useSearchParams } from "react-router-dom";
-import { courseTypeOf } from "../utils/courseMeta";
+import { courseTypeOf,API_BASE } from "../utils/courseMeta";
 
 const TYPE_TABS = [
   { key: "all", label: "All courses" },
@@ -34,7 +34,7 @@ export default function Courses() {
   const fetchCourses = async () => {
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:8080/api/courses/published");
+      const response = await fetch(`${API_BASE}/courses/published`);
       if (response.ok) {
         const data = await response.json();
         setCourses(data);

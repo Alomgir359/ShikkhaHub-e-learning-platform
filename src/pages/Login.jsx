@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Logo from "../components/Logo";
-
+import { API_BASE } from "../utils/courseMeta";
 export default function Login() {
   const [loginForm, setLoginForm] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
@@ -22,7 +22,7 @@ export default function Login() {
     }
 
     try {
-      const response = await fetch("http://localhost:8080/api/teachers/login", {
+      const response = await fetch(`${API_BASE}/teachers/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(loginForm)

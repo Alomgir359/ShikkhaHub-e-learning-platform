@@ -6,7 +6,7 @@ import CourseCard from "../components/CourseCard";
 import LandingVideoSection from "../components/LandingVideoSection";
 import { ConceptExplorerSection, DifferenceSection, MethodSection, SyllabusSection } from "../components/ShikkhaHubSections";
 import { HeroCodeWindow, WhyShikkhaHubSection } from "../components/LandingHighlights";
-
+import { API_BASE } from "../utils/courseMeta";
 export default function Welcome() {
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState(1);
@@ -83,7 +83,7 @@ export default function Welcome() {
   const fetchCourses = async () => {
     setCoursesLoading(true);
     try {
-      const response = await fetch("http://localhost:8080/api/courses/published");
+      const response = await fetch(`${API_BASE}/courses/published`);
       if (response.ok) {
         const data = await response.json();
         setCourses(data.slice(0, 6));
@@ -104,7 +104,7 @@ export default function Welcome() {
     setStatsLoading(true);
     try {
       // Fetch all teachers (which includes both TEACHER and STUDENT roles)
-      const response = await fetch("http://localhost:8080/api/teachers/all");
+      const response = await fetch(`${API_BASE}/teachers/all`);
       if (response.ok) {
         const allTeachers = await response.json();
         
@@ -326,7 +326,7 @@ export default function Welcome() {
 
     try {
       // API Call 1: Step 1 - same as Navbar
-      const response = await fetch("http://localhost:8080/api/teachers/apply/step1", {
+      const response = await fetch(`${API_BASE}/teachers/apply/step1`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -347,7 +347,7 @@ export default function Welcome() {
         formData.append("profilePhoto", step2Files.profilePhoto);
         formData.append("organizationIdCard", step2Files.organizationIdCard);
 
-        const step2Response = await fetch(`http://localhost:8080/api/teachers/apply/step2/${newTempId}`, {
+        const step2Response = await fetch(`{API_BASE}/teachers/apply/step2/${newTempId}`, {
           method: "POST",
           body: formData
         });
