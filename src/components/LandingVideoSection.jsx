@@ -39,7 +39,8 @@ export default function LandingVideoSection() {
         </div>
 
         <div className="relative rounded-3xl p-2 md:p-3 bg-gradient-to-br from-green-500 via-green-600 to-green-800 shadow-2xl">
-          <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-black">
+          {/* 16:9 via padding-top (works on old mobile browsers that ignore aspect-ratio) */}
+          <div className="relative w-full h-0 overflow-hidden rounded-2xl bg-black" style={{ paddingTop: "56.25%" }}>
             {!loaded ? (
               <div className="absolute inset-0 animate-pulse bg-gray-800" />
             ) : playing || (isFile && !poster) ? (

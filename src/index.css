@@ -15,3 +15,18 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* ── Old mobile browser fallbacks ───────────────────────────────────────────
+   Some phone browsers / WebViews (older Chromium) don't understand
+   `inset` or `aspect-ratio`, so absolute layers lose their size and 16:9 boxes
+   collapse to 0px height (videos and thumbnails disappear). */
+.inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
+
+@supports not (aspect-ratio: 16 / 9) {
+  .aspect-video,
+  .aspect-\[16\/9\] { position: relative; }
+  .aspect-video::before,
+  .aspect-\[16\/9\]::before { content: ""; float: left; width: 0; padding-top: 56.25%; }
+  .aspect-video::after,
+  .aspect-\[16\/9\]::after { content: ""; display: block; clear: both; }
+}

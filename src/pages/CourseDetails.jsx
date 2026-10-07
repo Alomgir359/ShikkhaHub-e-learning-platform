@@ -114,7 +114,7 @@ function PreviewVideo({ url, poster, title }) {
 
   if (!source) {
     return (
-      <div className="relative aspect-video w-full rounded-xl bg-gradient-to-br from-green-600 to-green-800 flex flex-col items-center justify-center text-center p-6">
+      <div className="relative aspect-video min-h-[190px] w-full rounded-xl bg-gradient-to-br from-green-600 to-green-800 flex flex-col items-center justify-center text-center p-6">
         {image ? (
           <img src={image} alt="" onError={() => setImageFailed(true)} className="absolute inset-0 w-full h-full object-cover rounded-xl opacity-40" />
         ) : null}
@@ -130,7 +130,8 @@ function PreviewVideo({ url, poster, title }) {
         <span className="inline-flex items-center justify-center w-6 h-5 rounded bg-red-600 text-[10px]" aria-hidden>▶</span>
         <span className="font-medium">Watch a free demo class</span>
       </div>
-      <div className="relative aspect-video w-full">
+      {/* 16:9 via padding-top (works on old mobile browsers that ignore aspect-ratio) */}
+      <div className="relative w-full h-0" style={{ paddingTop: "56.25%" }}>
         {playing ? (
           source.kind === "video" ? (
             <video src={source.src} controls autoPlay className="absolute inset-0 w-full h-full" />
