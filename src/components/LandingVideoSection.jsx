@@ -1,15 +1,13 @@
 // components/LandingVideoSection.jsx
 // Home page video — uploaded (or linked) by the admin from /admin/site-settings (Thymeleaf).
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { API_BASE, getVideoSource, getVideoPoster } from "../utils/courseMeta";
 
 // Fills the 16:9 box with explicit offsets (no `inset-0`, which old browsers ignore).
 const fill = { position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: 0 };
 
-// Old phone browsers (UC / Oppo / Realme / old WebView) take over <iframe>/<video> with their
-// own native layer, which floats out of the frame. They can't be fixed with CSS, so on those
-// browsers the play button opens the video directly (YouTube app / new tab) instead of embedding.
-// Modern browsers support `aspect-ratio`, so that is used as the check.
+// Very old phone browsers can't embed the player cleanly (their native video layer floats out
+// of the frame). There the play button opens the video directly instead of embedding it.
 const isLegacyBrowser = () => {
   try {
     return !(window.CSS && window.CSS.supports && window.CSS.supports("aspect-ratio", "16 / 9"));
@@ -23,7 +21,9 @@ export default function LandingVideoSection() {
   const [loaded, setLoaded] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [posterFailed, setPosterFailed] = useState(false);
+  const [playId, setPlayId] = useState(0); // new key on every play → fresh player each time
   const [legacy] = useState(isLegacyBrowser);
+  const iframeRef = useRef(null);
 
   useEffect(() => {
     let alive = true;
@@ -35,6 +35,28 @@ export default function LandingVideoSection() {
     return () => { alive = false; };
   }, []);
 
+  // When the YouTube video ENDS, remove the player and go back to the poster.
+  // Otherwise some phones leave a second "ghost" copy of the ended video (with "Replay")
+  // floating above the frame.
+  useEffect(() => {
+    if (!playing) return undefined;
+    const onMessage = (e) => {
+      if (!/youtube(-nocookie)?\.com$/.test((e.origin || "").replace(/^https?:\/\//, ""))) return;
+      if (iframeRef.current && e.source !== iframeRef.current.contentWindow) return;
+      let data = e.data;
+      if (typeof data === "string") {
+        try { data = JSON.parse(data); } catch (err) { return; }
+      }
+      if (!data) return;
+      const ended =
+        (data.event === "onStateChange" && data.info === 0) ||
+        (data.event === "infoDelivery" && data.info && data.info.playerState === 0);
+      if (ended) setPlaying(false);
+    };
+    window.addEventListener("message", onMessage);
+    return () => window.removeEventListener("message", onMessage);
+  }, [playing]);
+
   // Nothing configured (or turned off) → no empty section on the page
   if (loaded && (!video || !video.enabled || !video.videoUrl)) return null;
 
@@ -43,12 +65,34 @@ export default function LandingVideoSection() {
   const isFile = video?.source === "UPLOAD" || source?.kind === "video";
   const poster = posterFailed ? null : video?.posterUrl || getVideoPoster(video?.videoUrl);
   const isYouTube = !!source?.src && /youtube\.com\/embed\//.test(source.src);
-  // playsinline keeps YouTube inside the box on mobile
+  // enablejsapi lets us hear "video ended"; playsinline keeps it inside the box on mobile
+  let origin = "";
+  try { origin = encodeURIComponent(window.location.origin); } catch (e) { /* ignore */ }
   const iframeSrc = source?.src
     ? isYouTube
-      ? `${source.src}${source.src.includes("?") ? "&" : "?"}playsinline=1&modestbranding=1`
+      ? `${source.src}${source.src.includes("?") ? "&" : "?"}playsinline=1&modestbranding=1&enablejsapi=1${origin ? `&origin=${origin}` : ""}`
       : source.src
     : "";
+
+  const startPlaying = () => {
+    setPlayId((n) => n + 1);
+    setPlaying(true);
+  };
+
+  // Ask the YouTube player to start sending us its state changes
+  const listenToPlayer = () => {
+    const send = () => {
+      try {
+        iframeRef.current?.contentWindow?.postMessage(
+          JSON.stringify({ event: "listening", id: 1, channel: "widget" }),
+          "*"
+        );
+      } catch (e) { /* ignore */ }
+    };
+    send();
+    setTimeout(send, 800);
+    setTimeout(send, 2000);
+  };
 
   // Play-button cover (poster + big white play icon). Shared by the button and the legacy link.
   const cover = (
@@ -110,18 +154,23 @@ export default function LandingVideoSection() {
             ) : playing || (isFile && !poster) ? (
               isFile ? (
                 <video
+                  key={playId}
                   src={video.videoUrl}
                   poster={poster || undefined}
                   controls
                   autoPlay={playing}
                   playsInline
                   preload="metadata"
+                  onEnded={() => setPlaying(false)}
                   style={{ ...fill, backgroundColor: "#000", objectFit: "contain" }}
                 />
               ) : (
                 <iframe
+                  key={playId}
+                  ref={iframeRef}
                   src={iframeSrc}
                   title={video.title || "ShikkhaHub video"}
+                  onLoad={isYouTube ? listenToPlayer : undefined}
                   style={fill}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
@@ -130,7 +179,7 @@ export default function LandingVideoSection() {
             ) : (
               <button
                 type="button"
-                onClick={() => setPlaying(true)}
+                onClick={startPlaying}
                 className="focus:outline-none focus-visible:ring-4 focus-visible:ring-yellow-300"
                 style={coverStyle}
                 aria-label="Play video"
