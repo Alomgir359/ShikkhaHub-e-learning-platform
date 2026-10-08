@@ -5,6 +5,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import EnrollmentModal from "../components/EnrollmentModal";
+import SmartVideoPlayer from "../components/SmartVideoPlayer";
 import { API_BASE } from "../utils/courseMeta";
 import {
   isLiveCourse,
@@ -107,7 +108,6 @@ function BatchStartHighlight({ course, offline, countdown }) {
 
 // Course preview video: poster first, the player loads only after a click
 function PreviewVideo({ url, poster, title }) {
-  const [playing, setPlaying] = useState(false);
   const source = getVideoSource(url);
   const [imageFailed, setImageFailed] = useState(false);
   const image = imageFailed ? null : poster || getVideoPoster(url);
@@ -125,44 +125,13 @@ function PreviewVideo({ url, poster, title }) {
   }
 
   return (
-    <div className="rounded-xl overflow-hidden bg-black">
-      <div className="flex items-center gap-2 bg-gray-900 text-white text-sm px-3 py-2">
+    // No overflow-hidden here: clipping the player's parent makes some phones push the video out of the frame
+    <div className="rounded-t-xl bg-black">
+      <div className="flex items-center gap-2 bg-gray-900 text-white text-sm px-3 py-2 rounded-t-xl">
         <span className="inline-flex items-center justify-center w-6 h-5 rounded bg-red-600 text-[10px]" aria-hidden>▶</span>
         <span className="font-medium">Watch a free demo class</span>
       </div>
-      {/* 16:9 via padding-top (works on old mobile browsers that ignore aspect-ratio) */}
-      <div className="relative w-full h-0" style={{ paddingTop: "56.25%" }}>
-        {playing ? (
-          source.kind === "video" ? (
-            <video src={source.src} controls autoPlay className="absolute inset-0 w-full h-full" />
-          ) : (
-            <iframe
-              src={source.src}
-              title={`${title} – preview`}
-              className="absolute inset-0 w-full h-full"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          )
-        ) : (
-          <button
-            type="button"
-            onClick={() => setPlaying(true)}
-            className="group absolute inset-0 w-full h-full focus:outline-none focus-visible:ring-4 focus-visible:ring-yellow-300"
-            aria-label="Play demo class"
-          >
-            {image ? (
-              <img src={image} alt="" onError={() => setImageFailed(true)} className="w-full h-full object-cover" />
-            ) : (
-              <div className="w-full h-full bg-gradient-to-br from-green-600 to-green-900"></div>
-            )}
-            <span className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></span>
-            <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center w-16 h-16 md:w-20 md:h-20 rounded-full bg-white/90 shadow-2xl group-hover:scale-105 transition-transform">
-              <span className="ml-1 w-0 h-0 border-y-[12px] border-y-transparent border-l-[20px] border-l-red-600 md:border-y-[14px] md:border-l-[24px]"></span>
-            </span>
-          </button>
-        )}
-      </div>
+      <SmartVideoPlayer url={url} poster={poster} title={`${title} – preview`} variant="compact" />
     </div>
   );
 }
