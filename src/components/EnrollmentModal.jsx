@@ -405,7 +405,7 @@ export default function EnrollmentModal({ course, open, onClose, onSubmitted }) 
               <h3 className="text-2xl font-extrabold text-green-700">এনরোলমেন্ট সম্পন্ন হয়েছে!</h3>
               <p className="text-gray-600 mt-2 text-sm leading-relaxed">
                 {result.requiresApproval
-                  ? "আপনার পেমেন্টের তথ্য আমরা পেয়েছি। অ্যাডমিন যাচাই করে অ্যাপ্রুভ করলেই আপনি লগইন করে ক্লাস শুরু করতে পারবেন।"
+                  ? "আপনার পেমেন্টের তথ্য আমরা পেয়েছি। আপনি এখনই লগইন করতে পারবেন; অ্যাডমিন যাচাই করে অ্যাপ্রুভ করলে কোর্সটি আপনার ড্যাশবোর্ডে চালু হবে।"
                   : "আপনি এখন কোর্সে এনরোলড।"}
               </p>
             </div>
@@ -431,7 +431,7 @@ export default function EnrollmentModal({ course, open, onClose, onSubmitted }) 
                   {[
                     { done: true, t: "এনরোলমেন্ট জমা হয়েছে" },
                     { now: true, t: "অ্যাডমিন পেমেন্ট যাচাই করছেন", s: "সাধারণত ২–১২ ঘণ্টা" },
-                    { t: loggedInStudent ? "অ্যাপ্রুভ হলে ড্যাশবোর্ডে কোর্স চালু হবে" : "অ্যাপ্রুভ হলে লগইন করে ক্লাস শুরু করুন" },
+                    { t: "অ্যাপ্রুভ হলে ড্যাশবোর্ডে কোর্স চালু হবে" },
                   ].map((x, i) => (
                     <li key={i} className="flex items-start gap-3">
                       <span className={`shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
@@ -452,7 +452,7 @@ export default function EnrollmentModal({ course, open, onClose, onSubmitted }) 
               </button>
             ) : (
               <button onClick={() => goLogin(result.requiresApproval
-                  ? { tone: "info", title: "✅ এনরোলমেন্ট সম্পন্ন হয়েছে", text: "আপনার ইমেইল ও পাসওয়ার্ড দিয়ে লগইন করুন। পেমেন্ট এখনো যাচাই না হলে এখানে তা দেখাবে।" }
+                  ? { tone: "info", title: "✅ এনরোলমেন্ট সম্পন্ন হয়েছে", text: "আপনার ইমেইল ও পাসওয়ার্ড দিয়ে লগইন করুন। পেমেন্ট যাচাই না হওয়া পর্যন্ত ড্যাশবোর্ডে এনরোলমেন্টটি 'যাচাই চলছে' দেখাবে।" }
                   : { tone: "info", title: "✅ এনরোলমেন্ট সম্পন্ন", text: "আপনার ইমেইল ও পাসওয়ার্ড দিয়ে লগইন করে কোর্স শুরু করুন।" })}
                 className="w-full bg-green-600 text-white py-3 rounded-xl font-bold hover:bg-green-700">
                 লগইন করুন
